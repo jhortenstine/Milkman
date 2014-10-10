@@ -14,6 +14,8 @@ namespace Milkman.Imaging
             InitializeComponent();
         }
 
+        private static Object renderTileLock = new Object();
+
         public void RenderLiveTileImage(string filename, string title, string content)
         {
             this.txtTitle.Text = title;
@@ -31,14 +33,17 @@ namespace Milkman.Imaging
             image.Render(this, null);
             image.Invalidate();
 
-            using (IsolatedStorageFile output = IsolatedStorageFile.GetUserStoreForApplication())
+            lock (renderTileLock)
             {
-                if (output.FileExists(filename))
-                    output.DeleteFile(filename);
-
-                using (var stream = output.OpenFile(filename, System.IO.FileMode.OpenOrCreate))
+                using (IsolatedStorageFile output = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    image.WritePNG(stream);
+                    if (output.FileExists(filename))
+                        output.DeleteFile(filename);
+
+                    using (var stream = output.OpenFile(filename, System.IO.FileMode.OpenOrCreate))
+                    {
+                        image.WritePNG(stream);
+                    }
                 }
             }
         }
