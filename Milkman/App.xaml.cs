@@ -198,6 +198,7 @@ namespace Milkman
 
         private void RootFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {
+            e.Exception.Data["Navigation"] = e.Uri.OriginalString;
             LittleWatson.ReportException(e.Exception, "RootFrame_NavigationFailed()");
 
             if (System.Diagnostics.Debugger.IsAttached)

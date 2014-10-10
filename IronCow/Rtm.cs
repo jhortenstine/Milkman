@@ -882,12 +882,12 @@ namespace IronCow
                 {
                     return TaskLists[listName];
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
                     return TaskLists.SingleOrDefault<TaskList>(l => l.Id == listName);
                 }
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 return TaskLists.FirstOrDefault<TaskList>();
             }

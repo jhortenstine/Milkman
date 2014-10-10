@@ -810,7 +810,11 @@ namespace IronCow.Rest
                         responseReader.Close();
 
                         if (throwOnError && response.Status != ResponseStatus.OK)
-                            throw new RtmException(response.Error);
+                        {
+                            RtmException ex = new RtmException(response.Error);
+                            ex.Data["r"] = r;
+                            throw ex;
+                        }
                         
                         callback(response);
                     });

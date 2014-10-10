@@ -23,6 +23,13 @@ namespace Milkman.Common
                         output.WriteLine();
                         output.WriteLine(ex.Message);
                         output.WriteLine(ex.StackTrace);
+                        if (ex.Data.Count > 0)
+                        {
+                            output.WriteLine("ExtraData:");
+                            foreach (System.Collections.DictionaryEntry de in ex.Data)
+                                Console.WriteLine("{0}: {1}",
+                                                  "'" + de.Key.ToString() + "'", de.Value);
+                        }
                     }
                 }
             }
